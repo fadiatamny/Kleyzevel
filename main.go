@@ -1,6 +1,7 @@
 package main
 
 import (
+	routes "Tuneless-Treasures/routers"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -10,11 +11,7 @@ func main() {
 	PORT := 3000
 	server := gin.Default()
 
-	server.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello World",
-		})
-	})
+	routes.SetupRouter(server)
 
 	server.Run(fmt.Sprintf(":%d", PORT))
 }
