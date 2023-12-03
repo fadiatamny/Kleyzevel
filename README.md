@@ -30,7 +30,7 @@ We want to create a instrument/music shop center. This site will serve its users
 
 ## Tech Stack
 
-- Language of your choice
+- Go lang with Gin Framework
 - DB: Postgres
 - RedPanda ( Kafka )
 - Redis
