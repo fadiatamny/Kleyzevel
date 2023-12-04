@@ -25,6 +25,9 @@ func ConnectDB() (*gorm.DB, error) {
 
 	db, err := gorm.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, dbPort, dbUser, dbName, sslMode, dbPassword))
 
+	// for local dev with no db
+	// db, err := gorm.Open("sqlite3", "test.db")
+
 	if err != nil {
 		return nil, err
 	}
