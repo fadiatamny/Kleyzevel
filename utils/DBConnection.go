@@ -6,8 +6,9 @@ import (
 
 	models "Tuneless-Treasures/models"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"gorm.io/driver/postgres"
+	_ "gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func ConnectDB() (*gorm.DB, error) {
@@ -23,7 +24,7 @@ func ConnectDB() (*gorm.DB, error) {
 		sslMode = "enable"
 	}
 
-	db, err := gorm.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, dbPort, dbUser, dbName, sslMode, dbPassword))
+	db, err := gorm.Open(postgres.Open(fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, dbPort, dbUser, dbName, sslMode, dbPassword)))
 
 	// for local dev with no db
 	// db, err := gorm.Open("sqlite3", "test.db")
@@ -36,9 +37,5 @@ func ConnectDB() (*gorm.DB, error) {
 }
 
 func AutoMigrate(db *gorm.DB) {
-	db.AutoMigrate(&models.Instrument{})
-}
-
-func CloseDB(db *gorm.DB) {
-	db.Close()
+	db.AutoMigrate(&models.Category{}, &models.Instrument{}, &models.WorkOrder{}, &models.Worker{}, &models.Order{}, &models.Customer{})
 }

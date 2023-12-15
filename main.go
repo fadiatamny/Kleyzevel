@@ -30,8 +30,6 @@ func main() {
 	utils.AutoMigrate(db)
 	log.Println("Successfully migrated database")
 
-	defer utils.CloseDB(db)
-
 	PORT := 3000
 	server := gin.Default()
 

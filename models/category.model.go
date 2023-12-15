@@ -1,7 +1,7 @@
 package models
 
 import (
-	_ "github.com/jinzhu/gorm"
+	_ "gorm.io/gorm"
 )
 
 type Category struct {
