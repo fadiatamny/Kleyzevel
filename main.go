@@ -21,17 +21,26 @@ func main() {
 	loadEnv()
 	log.Println("Successfully loaded env config")
 
-	db, err := utils.ConnectDB()
-	if err != nil {
-		log.Fatal("Error connecting to database", err)
+	db, connectionErr := utils.ConnectDB()
+	if connectionErr != nil {
+		log.Fatal("Error connecting to database", connectionErr)
 	}
 	log.Println("Successfully connected to database")
 
-	utils.AutoMigrate(db)
+	migrateErr := utils.AutoMigrate(db)
+	if migrateErr != nil {
+		log.Fatal("Error migrating database", migrateErr)
+	}
+
 	log.Println("Successfully migrated database")
 
 	PORT := 3000
 	server := gin.Default()
+
+	server.Use(func(c *gin.Context) {
+		c.Set("db", db)
+		c.Next()
+	})
 
 	routes.SetupRouter(server)
 

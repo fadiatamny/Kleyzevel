@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	models "Tuneless-Treasures/models"
+	"Tuneless-Treasures/models"
 
 	"gorm.io/driver/postgres"
 	_ "gorm.io/driver/postgres"
@@ -26,9 +26,6 @@ func ConnectDB() (*gorm.DB, error) {
 
 	db, err := gorm.Open(postgres.Open(fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, dbPort, dbUser, dbName, sslMode, dbPassword)))
 
-	// for local dev with no db
-	// db, err := gorm.Open("sqlite3", "test.db")
-
 	if err != nil {
 		return nil, err
 	}
@@ -36,6 +33,31 @@ func ConnectDB() (*gorm.DB, error) {
 	return db, nil
 }
 
-func AutoMigrate(db *gorm.DB) {
-	db.AutoMigrate(&models.Category{}, &models.Instrument{}, &models.WorkOrder{}, &models.Worker{}, &models.Order{}, &models.Customer{})
+func AutoMigrate(db *gorm.DB) error {
+
+	if err := db.AutoMigrate(&models.WorkOrder{}); err != nil {
+		return err
+	}
+
+	if err := db.AutoMigrate(&models.Worker{}); err != nil {
+		return err
+	}
+
+	if err := db.AutoMigrate(&models.Order{}); err != nil {
+		return err
+	}
+
+	if err := db.AutoMigrate(&models.Customer{}); err != nil {
+		return err
+	}
+
+	if err := db.AutoMigrate(&models.Category{}); err != nil {
+		return err
+	}
+
+	if err := db.AutoMigrate(&models.Instrument{}); err != nil {
+		return err
+	}
+
+	return nil
 }
