@@ -3,7 +3,6 @@ package controllers
 import (
 	"Tuneless-Treasures/models"
 	"Tuneless-Treasures/services"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -46,16 +45,9 @@ func QueryCustomer(c *gin.Context) {
 
 func GetCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	customerIdStr := c.Param("id")
-	customerId, err := strconv.ParseUint(customerIdStr, 10, 32)
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "Invalid customer id",
-		})
-		return
-	}
+	email := c.Param("email")
 
-	customer, err := services.GetCustomer(db, uint(customerId))
+	customer, err := services.GetCustomer(db, email)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
@@ -90,14 +82,7 @@ func CreateCustomer(c *gin.Context) {
 
 func UpdateCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	customerIdStr := c.Param("id")
-	customerId, err := strconv.ParseUint(customerIdStr, 10, 32)
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "Invalid customer id",
-		})
-		return
-	}
+	email := c.Param("email")
 
 	payload := models.CustomerPatch{}
 	if err := c.ShouldBindJSON(&payload); err != nil {
@@ -107,7 +92,7 @@ func UpdateCustomer(c *gin.Context) {
 		return
 	}
 
-	customer, err := services.UpdateCustomer(db, uint(customerId), &payload)
+	customer, err := services.UpdateCustomer(db, email, &payload)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
@@ -120,16 +105,9 @@ func UpdateCustomer(c *gin.Context) {
 
 func DeleteCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
-	customerIdStr := c.Param("id")
-	customerId, err := strconv.ParseUint(customerIdStr, 10, 32)
-	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "Invalid customer id",
-		})
-		return
-	}
+	email := c.Param("email")
 
-	err = services.DeleteCustomer(db, uint(customerId))
+	err := services.DeleteCustomer(db, email)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": err.Error(),

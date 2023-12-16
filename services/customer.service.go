@@ -24,9 +24,9 @@ func QueryCustomer(db *gorm.DB, payload *models.CustomerPatch) ([]models.Custome
 	return customers, nil
 }
 
-func GetCustomer(db *gorm.DB, customerId uint) (*models.Customer, error) {
+func GetCustomer(db *gorm.DB, email string) (*models.Customer, error) {
 	customer := models.Customer{}
-	err := db.First(&customer, customerId).Error
+	err := db.First(&customer, email).Error
 	if err != nil {
 		return nil, err
 	}
@@ -43,8 +43,8 @@ func CreateCustomer(db *gorm.DB, payload *models.CustomerInput) (*models.Custome
 	return &customer, nil
 }
 
-func UpdateCustomer(db *gorm.DB, customerId uint, payload *models.CustomerPatch) (*models.Customer, error) {
-	customer, err := GetCustomer(db, customerId)
+func UpdateCustomer(db *gorm.DB, email string, payload *models.CustomerPatch) (*models.Customer, error) {
+	customer, err := GetCustomer(db, email)
 	if err != nil {
 		return nil, err
 	}
@@ -61,8 +61,8 @@ func UpdateCustomer(db *gorm.DB, customerId uint, payload *models.CustomerPatch)
 	return customer, nil
 }
 
-func DeleteCustomer(db *gorm.DB, customerId uint) error {
-	customer, err := GetCustomer(db, customerId)
+func DeleteCustomer(db *gorm.DB, email string) error {
+	customer, err := GetCustomer(db, email)
 	if err != nil {
 		return err
 	}

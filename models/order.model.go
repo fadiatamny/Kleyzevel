@@ -6,7 +6,7 @@ import (
 
 type Order struct {
 	DBEntity
-	CustomerId uint     `json:"customer_id" gorm:"column:customer_id"`
+	CustomerId string   `json:"customerId" gorm:"column:customer_id"`
 	Customer   Customer `json:"customer" gorm:"foreignkey:Email"`
 	Items      []string `json:"items" gorm:"type:text[]"`
 	Total      float64  `json:"total" gorm:"column:total"`
