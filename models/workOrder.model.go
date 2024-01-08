@@ -14,3 +14,10 @@ type WorkOrder struct {
 	OrderId      uint       `json:"orderId" gorm:"column:order_id"`
 	Order        Order      `json:"order" gorm:"foreignkey:ID"`
 }
+
+type WorkOrderInput struct {
+	InstrumentID uint   `json:"instrumentId"  binding:"required"`
+	WorkerId     uint   `json:"workerId"`
+	Status       string `json:"status"`
+	OrderId      uint   `json:"orderId"`
+}

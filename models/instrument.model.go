@@ -1,5 +1,7 @@
 package models
 
+import "errors"
+
 type Instrument struct {
 	DBEntity
 	Brand      string   `json:"brand" gorm:"column:brand"`
@@ -8,3 +10,5 @@ type Instrument struct {
 	CategoryID uint     `json:"categoryId" gorm:"column:category_id"`
 	Category   Category `json:"category" gorm:"foreignkey:ID"`
 }
+
+var ErrInstrumentNotFound = errors.New("Instrument not found")

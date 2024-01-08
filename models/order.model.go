@@ -1,6 +1,8 @@
 package models
 
 import (
+	"errors"
+
 	_ "gorm.io/gorm"
 )
 
@@ -12,3 +14,11 @@ type Order struct {
 	Total      float64  `json:"total" gorm:"column:total"`
 	Status     string   `json:"status" gorm:"column:status"`
 }
+
+type OrderInput struct {
+	CustomerId string   `json:"customerId"  binding:"required"`
+	Items      []string `json:"items"`
+	Total      float64  `json:"total"`
+}
+
+var ErrOrderWasCreatedWithMissingWorkOrders = errors.New("Order was created with missing work orders")

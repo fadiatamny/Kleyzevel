@@ -10,4 +10,5 @@ func SetupRouter(r *gin.Engine) {
 	r.GET("/", controllers.Hello)
 
 	SetupCustomerRouter(r)
+	SetupOrderRouter(r)
 }
